@@ -12,13 +12,13 @@
 			try{
 				$conn = new PDO("mysql:host=$this->server;dbname=$this->databaseName", 
 							$this->username, $this->password);
-				echo 'PDO connection established to: ' . $this->databaseName; 
+				return $conn;
 			} catch(PDOException $pEx){
 				echo "PDO connection failed.";
 			}
 		}
 		
-		public function closeConnection(){
+		public function closeConnection($conn){
 			if($conn != null){
 				$conn->close();
 				echo "PDO connection closed";
