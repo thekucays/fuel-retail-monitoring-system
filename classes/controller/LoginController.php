@@ -13,12 +13,17 @@
 	$member = "M";
 	
 	try{
-		if($hasil[0]['tipe'] == $member){
-			echo "is member";
-		} else if($hasil[0]['tipe'] == $admin){
-			echo "is admin";
+		if(isset($hasil[0]['tipe'])){
+			if($hasil[0]['tipe'] == $member){
+				echo "is member";
+				header("Location: tes.php");
+			} else if($hasil[0]['tipe'] == $admin){
+				echo "is admin";
+			} else{
+				echo "not allowed";
+			}
 		} else{
-			echo "not allowed";
+			
 		}
 	} catch(Exception $e){
 		echo "result null";

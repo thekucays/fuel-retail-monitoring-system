@@ -2,6 +2,7 @@ SELECT * FROM emoney_staging2.users where password_blocked_until is not null and
 create database antarfuelretail;
 use antarfuelretail;
 
+
 CREATE TABLE `blocked` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(32) NOT NULL,
@@ -52,7 +53,7 @@ create table users_table(
 	constraint subclassid_fk foreign key (subclass) references subclass(id)
 );
 
-create table fuel_kind(
+/*create table fuel_kind(
 	id int not null auto_increment, 
 	nama varchar(50) not null,
 	quality int,
@@ -60,30 +61,36 @@ create table fuel_kind(
 	primary key(id),
 	key addedby_fk (added_by),
 	constraint addedby_fk foreign key (added_by) references users_table(nip)
-);
+); */
 
 create table stocks(
 	id int not null auto_increment,
 	currencies_id int, 
-	stock int,
+	stock int not null,
+	harga int not null,
+	nama varchar(50) not null,
+	quality int,
+	added_by varchar(50) not null,		
 	primary key(id),
 	key currenciedid_fk (currencies_id),
-	constraint currenciedid_fk foreign key (currencies_id) references currencies(id)
+	key addedby_fk (added_by),
+	constraint currenciedid_fk foreign key (currencies_id) references currencies(id),
+	constraint addedby_fk foreign key (added_by) references users_table(nip)
 );
 
 create table stocks_mutation(
 	id int not null auto_increment,
 	mutation_date datetime,
-	kind_id int, 
+	-- kind_id int, 
 	nip varchar(50),
 	amount int,
 	mutation_types int,
 	stocks_id int,
 	primary key(id),
-	key kindid_fk (kind_id),
+	-- key kindid_fk (kind_id),
 	key nip_fk (nip),
 	key stocksid_fk (stocks_id),
-	constraint kindid_fk foreign key (kind_id) references fuel_kind(id),
+	-- constraint kindid_fk foreign key (kind_id) references fuel_kind(id),
 	constraint nip_fk foreign key (nip) references users_table(nip),
 	constraint stocksid_fk foreign key (stocks_id) references stocks(id)
 );
@@ -102,5 +109,6 @@ values('A');
 insert into users_table values(
 	'OP0001', 'Antar', 'Jakarta', md5('123456'), 2, now(), '0'
 );
+
 
 select * from users_table;
