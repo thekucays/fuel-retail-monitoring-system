@@ -11,11 +11,11 @@
 	</head>
 	<body>
 		Silahkan Login
-		<form name="loginform" id="loginform" action="">
+		<form name="loginform" method="post" id="loginform" action="classes\controller\LoginController.php">
 			<table>
 				<tr>
-					<td> Name </td>
-					<td> <input type="text" name="uname" id="uname" /> </td>
+					<td> NIP </td>
+					<td> <input type="text" name="nip" id="nip" /> </td>
 				</tr>
 				<tr>
 					<td> Password </td>

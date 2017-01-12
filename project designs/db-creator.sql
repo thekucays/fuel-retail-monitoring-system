@@ -87,3 +87,20 @@ create table stocks_mutation(
 	constraint nip_fk foreign key (nip) references users_table(nip),
 	constraint stocksid_fk foreign key (stocks_id) references stocks(id)
 );
+
+
+-- initial data for app
+insert into subclass (tipe)
+values ('M');
+insert into subclass (tipe)
+values ('A');
+select * from subclass;
+
+insert into mutation_types (nama)
+values('A');
+
+insert into users_table values(
+	'OP0001', 'Antar', 'Jakarta', md5('123456'), 2, now(), '0'
+);
+
+select * from users_table;
