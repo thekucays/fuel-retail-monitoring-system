@@ -108,6 +108,7 @@
 				$conn = $DBCon->initConnection();
 				
 				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':nip', $nip);
 				$stmt->execute();
 			} catch(PDOException $pEx){
 				echo "Got PDO Exception: " . $pEx->getMessage();
@@ -117,7 +118,7 @@
 		public function checkSession($nip){
 			$query = "select is_logged from users_table
 					where nip = :nip";
-					
+			$result = null;
 			try{
 				$DBCon = new DBConnector();
 				$conn = $DBCon->initConnection();
@@ -131,6 +132,7 @@
 			} catch(PDOException $pEx){
 				echo "Got PDO Exception: " . $pEx->getMessage();
 			}
+			return $result[0]['is_logged'];
 		}
 	} 
 ?>

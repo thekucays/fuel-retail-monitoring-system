@@ -25,12 +25,34 @@ join currencies cur on s.currencies_id = cur.id;
 
 -- view stocks detail
 describe stocks_mutation;
-select stk.id, stk.nama, stk.stock, stm.mutation_date, stm.amount, ut.nip, ut.nama, mt.nama
+select stk.id, stk.nama, stk.stock, stm.mutation_date, stm.amount, ut.nip, ut.nama, mt.nama as 'mutation_types'
 from stocks_mutation stm
 join stocks stk on stm.stocks_id = stk.id
 join users_table ut on ut.nip = stk.added_by
 join mutation_types mt on stm.mutation_types = mt.id
 where stk.id = 1;
+
+-- check fuel stock
+select stock from stocks where id = '1';
+
+-- stock adding / purchasing #1
+-- update stocks table
+select * from stocks;
+update stocks
+set stock = stock + 5
+where id = 1;
+
+-- stock adding / purchasing #2
+-- add record to stocks_mutation
+select * from stocks_mutation;
+insert into stocks_mutation (mutation_date, nip, amount, mutation_types, stocks_id)
+values(
+	now(),
+	'OP0001',
+	5,
+	2, -- 1 purchase, 2 stock adding
+	1
+);
 
 -- initial datas ------------------------------------------------------------------------
 
@@ -38,3 +60,4 @@ where stk.id = 1;
 select * from currencies;
 insert into currencies(nama)
 values('liter');
+

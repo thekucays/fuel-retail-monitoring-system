@@ -1,10 +1,3 @@
-<?php
-	require_once("classes\DBConnector.php");
-	
-	$DBCon = new DBConnector();
-	$con = $DBCon->initConnection();
-?>
-
 <html>
 	<head>
 		<title> Fuel Retail v0.1 Login Page</title>
