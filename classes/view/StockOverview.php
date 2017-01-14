@@ -18,10 +18,10 @@
 		<script>
 			$(document).ready(function(){
 				viewMutasi = function(id){
-					window.location = "../controller/StockController.php?action=viewmutation&id="+id;
+					window.location = "../controller/StockController.php?action=viewmutation&stockid="+id;
 				};
 				tambahStock = function(id){
-					window.location = "../controller/StockController.php?action=updatestock&id="+id;
+					window.location = "../controller/StockController.php?action=updatestock&stockid="+id;
 				};
 			});
 		</script>

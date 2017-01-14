@@ -25,9 +25,10 @@ join currencies cur on s.currencies_id = cur.id;
 
 -- view stocks detail
 describe stocks_mutation;
-select stk.id, stk.nama, stk.stock, stm.mutation_date, stm.amount, ut.nip, ut.nama, mt.nama as 'mutation_types'
+select stk.id, stk.nama, stk.stock, curr.nama, stm.mutation_date, stm.amount, ut.nip, ut.nama as 'namapegawai', mt.nama as 'mutation_types'
 from stocks_mutation stm
 join stocks stk on stm.stocks_id = stk.id
+join currencies curr on stk.currencies_id = curr.id
 join users_table ut on ut.nip = stk.added_by
 join mutation_types mt on stm.mutation_types = mt.id
 where stk.id = 1;
@@ -94,3 +95,5 @@ select * from currencies;
 insert into currencies(nama)
 values('liter');
 
+
+select * from mutation_types;

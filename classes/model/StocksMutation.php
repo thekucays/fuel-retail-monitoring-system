@@ -50,6 +50,31 @@
 		}
 		
 		// methods
-		
+		public function getStockMutation($mutation_id){
+			$query = "
+				select stk.id, stk.nama, stk.stock, curr.nama as 'satuan', stm.mutation_date, stm.amount, ut.nip, ut.nama as 'namapegawai', mt.nama as 'mutation_types'
+				from stocks_mutation stm
+					join stocks stk on stm.stocks_id = stk.id
+					join currencies curr on stk.currencies_id = curr.id
+					join users_table ut on ut.nip = stk.added_by
+					join mutation_types mt on stm.mutation_types = mt.id
+				where stk.id = :id
+			";
+			$result = null;
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':id', $mutation_id);
+				$stmt->execute();
+				
+				$stmt->setFetchMode(PDO::FETCH_ASSOC); 
+				$result = $stmt->fetchAll();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+			return $result;
+		}
 	}
 ?>
