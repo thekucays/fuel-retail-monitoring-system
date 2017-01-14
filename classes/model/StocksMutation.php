@@ -1,4 +1,6 @@
 <?php
+	require_once("..\DBConnector.php");
+	
 	class StocksMutation{
 		public $id;
 		public $mutation_date;
@@ -46,5 +48,8 @@
 		public function setStocksid($val){
 			$this->stocks_id = $val;
 		}
+		
+		// methods
+		
 	}
 ?>

@@ -1,4 +1,6 @@
 <?php
+	require_once("..\DBConnector.php");
+
 	class Stocks{
 		public $id;
 		public $currencies_id;
@@ -52,6 +54,65 @@
 		}
 		public function setAddedby($val){
 			$this->added_by = $val;
+		}
+		
+		// methods
+		
+		// dijalanin pada saat ada penjualan..jika penjualan > stock, maka ditolak
+		public function checkStock($id){
+			$query = "select stock from stocks where id = :id";
+			$result = null;
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':id', $id);
+				$stmt->execute();
+				
+				$stmt->setFetchMode(PDO::FETCH_ASSOC); 
+				$result = $stmt->fetchAll();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+			return $result[0]['stock'];
+		}
+		
+		public function getAllSellingData(){
+			$query = "
+				select stk.id, stk.nama, stk.stock,
+					(
+						select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
+						where mutation_date between now() - interval 1 day and now()
+						and mutation_types = 1
+					) as 'day',
+					(
+						select sum(amount) from stocks_mutation  
+						where mutation_date between now() - interval 7 day and now()
+						and mutation_types = 1
+					) as 'week',
+					(
+						select sum(amount) from stocks_mutation  
+						where mutation_date between now() - interval 30 day and now()
+						and mutation_types = 1
+					) as 'month'
+					from stocks stk
+			";
+			$result = null;
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':id', $id);
+				$stmt->execute();
+				
+				$stmt->setFetchMode(PDO::FETCH_ASSOC); 
+				$result = $stmt->fetchAll();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+			return $result;
 		}
 	}
 ?>

@@ -39,7 +39,7 @@ select stock from stocks where id = '1';
 -- update stocks table
 select * from stocks;
 update stocks
-set stock = stock + 5
+set stock = stock - 5
 where id = 1;
 
 -- stock adding / purchasing #2
@@ -53,6 +53,39 @@ values(
 	2, -- 1 purchase, 2 stock adding
 	1
 );
+
+-- stock checking
+select * from stocks;
+select stock from stocks where id = 1;
+
+
+-- get fuel selling per day by stock id
+select * from stocks_mutation;
+select sum(amount) as 'sum' from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
+where mutation_date between now() - interval 10 day and now()
+-- and stocks_id = 1
+and mutation_types = 1;
+
+-- get complete fuel selling data
+select * from stocks_mutation;
+select * from stocks;
+select stk.id, stk.nama, stk.stock,
+(
+	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
+	where mutation_date between now() - interval 1 day and now()
+	and mutation_types = 1
+) as 'day',
+(
+	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
+	where mutation_date between now() - interval 7 day and now()
+	and mutation_types = 1
+) as 'week',
+(
+	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
+	where mutation_date between now() - interval 30 day and now()
+	and mutation_types = 1
+) as 'month'
+from stocks stk;
 
 -- initial datas ------------------------------------------------------------------------
 
