@@ -57,7 +57,9 @@ values(
 
 -- stock checking
 select * from stocks;
-select stock from stocks where id = 1;
+select stk.*, curr.nama as 'satuan' from stocks stk 
+join currencies curr on stk.currencies_id = curr.id
+where stk.id = 1;
 
 
 -- get fuel selling per day by stock id

@@ -76,5 +76,30 @@
 			}
 			return $result;
 		}
+		
+		public function addStockMutation($nip, $amount, $mtype, $sid){
+			$query = "
+				insert into stocks_mutation (mutation_date, nip, amount, mutation_types, stocks_id)
+				values(
+					now(), :nip, :amount, :mtype, :sid
+				)
+			";
+			
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				$mtype = "2";
+				
+				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':nip', $nip);
+				$stmt->bindParam(':amount', $amount);
+				$stmt->bindParam(':nip', $nip);
+				$stmt->bindParam(':mtype', $mtype);
+				$stmt->bindParam(':sid', $sid);
+				$stmt->execute();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+		}
 	}
 ?>

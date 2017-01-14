@@ -60,7 +60,12 @@
 		
 		// dijalanin pada saat ada penjualan..jika penjualan > stock, maka ditolak
 		public function checkStock($id){
-			$query = "select stock from stocks where id = :id";
+			//$query = "select * from stocks where id = :id";
+			$query = "
+				select stk.*, curr.nama as 'satuan' from stocks stk 
+				join currencies curr on stk.currencies_id = curr.id
+				where stk.id = :id
+			";
 			$result = null;
 			try{
 				$DBCon = new DBConnector();
@@ -75,7 +80,7 @@
 			} catch(PDOException $pEx){
 				echo "Got PDO Exception: " . $pEx->getMessage();
 			}
-			return $result[0]['stock'];
+			return $result[0];
 		}
 		
 		public function getAllSellingData(){
@@ -113,6 +118,26 @@
 				echo "Got PDO Exception: " . $pEx->getMessage();
 			}
 			return $result;
+		}
+		
+		public function addStock($stockid, $amount){
+			$query = "
+				update stocks
+				set stock = stock + :amount
+				where id = :stockid
+			";
+					
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':amount', $amount);
+				$stmt->bindParam(':stockid', $stockid);
+				$stmt->execute();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
 		}
 	}
 ?>

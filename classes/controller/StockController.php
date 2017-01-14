@@ -24,8 +24,7 @@
 		$_SESSION['mutationData'] = $result;
 		header("Location: ../view/ViewMutation.php");
 	} else if($action == "updatestock"){
-		$_SESSION['queryData'] = "";
-		
+		header("Location: ../view/UpdateStock.php?stockid=" . $id);
 	} else{
 		header("Location: ../view/StockOverview.php");
 	}
