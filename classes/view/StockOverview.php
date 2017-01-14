@@ -32,9 +32,6 @@
 			$result = $stockList->getAllSellingData();
 			print_r($result);
 		?>
-		<input type="button" id="a" name="a" value="tesclick" onclick="viewMutasi('a')" />
-		<input type="button" id="a" name="a" value="tesclick" onclick="tambahStock('b')" />
-		
 		<table border=1>
 			<tr>
 				<td>Nama</td>
