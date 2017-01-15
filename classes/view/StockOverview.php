@@ -23,6 +23,9 @@
 				tambahStock = function(id){
 					window.location = "../controller/StockController.php?action=updatestock&stockid="+id;
 				};
+				back = function(){
+					window.location = "MemberHome.php";
+				}
 			});
 		</script>
 	</head>
@@ -57,5 +60,6 @@
 				}
 			?>
 		</table>
+		<input type="button" id="backButton" name="backButton" value="Back" onclick="back()" />
 	</body>
 </html>
