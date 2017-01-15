@@ -94,6 +94,27 @@ select stk.id, stk.nama, stk.stock,
 ) as 'month'
 from stocks stk;
 
+-- 3. Penjualan BBM
+select stk.id, stk.nama, 
+(
+	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
+	where mutation_date between now() - interval 30 day and now()
+	and mutation_types = 1
+) as 'jumlahpenjualan',
+curr.nama as 'satuan',
+(
+	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
+	where mutation_date between now() - interval 30 day and now()
+	and mutation_types = 1
+)/30 as 'penjualanratarata'
+from stocks stk join currencies curr on stk.currencies_id = curr.id;
+
+-- Rekap penjualan harian
+select stk.id, stk.nama, stm.mutation_date, stm.amount, (stm.amount * stk.harga) as 'nilaipenjualan'
+from stocks stk
+join stocks_mutation stm on stk.id = stm.stocks_id;
+
+
 -- initial datas ------------------------------------------------------------------------
 
 -- initial currencies values
