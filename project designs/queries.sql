@@ -31,7 +31,8 @@ join stocks stk on stm.stocks_id = stk.id
 join currencies curr on stk.currencies_id = curr.id
 join users_table ut on ut.nip = stk.added_by
 join mutation_types mt on stm.mutation_types = mt.id
-where stk.id = 1;
+where stk.id = 1
+order by stm.mutation_date asc;
 
 -- check fuel stock
 select stock from stocks where id = '1';

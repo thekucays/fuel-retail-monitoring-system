@@ -59,6 +59,7 @@
 					join users_table ut on ut.nip = stk.added_by
 					join mutation_types mt on stm.mutation_types = mt.id
 				where stk.id = :id
+				order by stm.mutation_date asc
 			";
 			$result = null;
 			try{
