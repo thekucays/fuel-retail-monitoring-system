@@ -180,5 +180,31 @@
 				echo "Got PDO Exception: " . $pEx->getMessage();
 			}
 		}
+		
+		public function rekapPerBulan(){
+			$query = "
+				select stk.id, stk.nama, stm.mutation_date, stm.amount, (stm.amount * stk.harga) as 'nilaipenjualan'
+				from stocks stk
+				join stocks_mutation stm on stk.id = stm.stocks_id
+				where month(mutation_date) = month(current_date())
+				and stk.id = :stockid
+			";
+			
+			$result = null;
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':id', $id);
+				$stmt->execute();
+				
+				$stmt->setFetchMode(PDO::FETCH_ASSOC); 
+				$result = $stmt->fetchAll();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+			return $result;
+		}
 	}
 ?>

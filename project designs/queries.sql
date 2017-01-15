@@ -109,10 +109,12 @@ curr.nama as 'satuan',
 )/30 as 'penjualanratarata'
 from stocks stk join currencies curr on stk.currencies_id = curr.id;
 
--- Rekap penjualan harian
+-- Rekap penjualan harian (per bulan)
 select stk.id, stk.nama, stm.mutation_date, stm.amount, (stm.amount * stk.harga) as 'nilaipenjualan'
 from stocks stk
-join stocks_mutation stm on stk.id = stm.stocks_id;
+join stocks_mutation stm on stk.id = stm.stocks_id
+where month(mutation_date) = month(current_date())
+and stk.id = 1;
 
 
 -- initial datas ------------------------------------------------------------------------
