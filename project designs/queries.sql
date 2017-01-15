@@ -61,6 +61,9 @@ select stk.*, curr.nama as 'satuan' from stocks stk
 join currencies curr on stk.currencies_id = curr.id
 where stk.id = 1;
 
+select stk.id, stk.nama, curr.nama as 'satuan' from stocks stk
+join currencies curr on stk.currencies_id = curr.id;
+
 
 -- get fuel selling per day by stock id
 select * from stocks_mutation;

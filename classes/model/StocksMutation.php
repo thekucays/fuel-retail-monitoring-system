@@ -88,7 +88,6 @@
 			try{
 				$DBCon = new DBConnector();
 				$conn = $DBCon->initConnection();
-				$mtype = "2";
 				
 				$stmt = $conn->prepare($query);
 				$stmt->bindParam(':nip', $nip);

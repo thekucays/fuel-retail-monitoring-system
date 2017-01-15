@@ -1,5 +1,7 @@
 <?php
 	require_once('..\model\UsersTable.php');
+	require_once('..\model\Stocks.php');
+	require_once('..\model\StocksMutation.php');
 	session_start();
 	
 	// session check
@@ -16,10 +18,12 @@
 		<script src="../../scripts/jquery.min.js"></script>
 		<script>
 			$(document).ready(function(){
-				viewMutasi = function(id){
-					window.location = "../controller/StockController.php?action=viewmutation&stockid="+id;
+				back = function(){
+					window.location = "MemberHome.php";
 				};
 			});
+			
+			
 		</script>
 	</head>
 	<body>
@@ -28,13 +32,21 @@
 			<table>
 				<tr>
 					<td>NIP</td>
-					<td><input type="text" name="nip" id="nip" /></td>
+					<td><input type="text" name="nip" id="nip" value="<?php echo $_SESSION['nip']; ?>" readonly /></td>
 				</tr>
 				<tr>
 					<td>BBM</td>
 					<td>
-						<select name="bbm" id="bbm">
+						<select name="stockid" id="stockid">
 							<option value="">Silahkan Pilih..</option>
+							<?php
+								$stocks = new Stocks();
+								$resultList = $stocks->getStockList();
+								echo "test";
+								foreach($resultList as $val){
+									echo "<option value='" . $val['id'] . "'>" . $val['nama'] . "</option>";
+								}
+							?>
 						</select>
 					</td>
 				</tr>
@@ -55,7 +67,25 @@
 		
 		<?php
 			if(isset($_POST['submitButton'])){
-			
+				// cek if amount empty
+				if($_POST['jumlah'] == ""){
+					echo "<script>alert('jumlah harus diisi');</script>";
+				} else{
+					// update stocks data
+					$stocks = new Stocks();
+					$stocksId = $_POST['stockid'];
+					$amount = $_POST['jumlah'];
+					$stocks->reduceStock($stocksId, $amount);
+				
+					// add stocks mutation data
+					$stocksMutation = new StocksMutation();
+					$nip = $_SESSION['nip'];
+					$mtype = "1";
+					$stocksMutation->addStockMutation($nip, $amount, $mtype, $stocksId);
+				
+					// redirecting back
+					header("Location: StockOverview.php");
+				}
 			}
 		?>
 	</body>

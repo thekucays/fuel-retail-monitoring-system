@@ -83,6 +83,27 @@
 			return $result[0];
 		}
 		
+		public function getStockList(){
+			$query = "
+				select stk.id, stk.nama, curr.nama as 'satuan' from stocks stk
+				join currencies curr on stk.currencies_id = curr.id;
+			";
+			$result = null;
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->execute();
+				
+				$stmt->setFetchMode(PDO::FETCH_ASSOC); 
+				$result = $stmt->fetchAll();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+			return $result;
+		}
+		
 		public function getAllSellingData(){
 			$query = "
 				select stk.id, stk.nama, stk.stock,
@@ -124,6 +145,26 @@
 			$query = "
 				update stocks
 				set stock = stock + :amount
+				where id = :stockid
+			";
+					
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':amount', $amount);
+				$stmt->bindParam(':stockid', $stockid);
+				$stmt->execute();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+		}
+		
+		public function reduceStock($stockid, $amount){
+			$query = "
+				update stocks
+				set stock = stock - :amount
 				where id = :stockid
 			";
 					
