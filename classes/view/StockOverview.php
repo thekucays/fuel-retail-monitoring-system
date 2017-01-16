@@ -25,10 +25,13 @@
 				};
 				back = function(){
 					window.location = "MemberHome.php";
-				}
+				};
 				rekap = function(){
 					window.location = "Rekap.php"
-				}
+				};
+				insert = function(){
+					window.location = "InsertNewStock.php"
+				};
 			});
 		</script>
 	</head>
@@ -64,6 +67,7 @@
 			?>
 		</table>
 		<input type="button" id="rekapButton" name="rekapButton" value="Rekapitulasi" onclick="rekap()" />
+		<input type="button" id="inputButton" name="inputButton" value="Input BBM Baru" onclick="insert()" />
 		<input type="button" id="backButton" name="backButton" value="Back" onclick="back()" />
 	</body>
 </html>

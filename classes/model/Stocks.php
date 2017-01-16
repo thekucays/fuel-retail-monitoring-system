@@ -206,5 +206,28 @@
 			}
 			return $result;
 		}
+		
+		public function insertNewStock($stock){
+			$query = "
+				insert into stocks(currencies_id, stock, harga, nama, quality, added_by) 
+				values(:curr, :stock, :harga, :nama, :quality, :addedby)
+			";
+			
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':curr', $stock->getCurrenciesid());
+				$stmt->bindParam(':stock', $stock->getStock());
+				$stmt->bindParam(':harga', $stock->getHarga());
+				$stmt->bindParam(':nama', $stock->getNama());
+				$stmt->bindParam(':quality', $stock->getQuality());
+				$stmt->bindParam(':addedby', $stock->getAddedby());
+				$stmt->execute();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+		}
 	}
 ?>
