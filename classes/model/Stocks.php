@@ -111,16 +111,19 @@
 						select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
 						where mutation_date between now() - interval 1 day and now()
 						and mutation_types = 1
+						and stocks_id = stk.id
 					) as 'day',
 					(
 						select sum(amount) from stocks_mutation  
 						where mutation_date between now() - interval 7 day and now()
 						and mutation_types = 1
+						and stocks_id = stk.id
 					) as 'week',
 					(
 						select sum(amount) from stocks_mutation  
 						where mutation_date between now() - interval 30 day and now()
 						and mutation_types = 1
+						and stocks_id = stk.id
 					) as 'month'
 					from stocks stk
 			";
