@@ -99,12 +99,6 @@
 				$numbering2 = 0;
 				foreach($rekapSource as $rekapVal){
 					$rekapPenjualanHarian = $stocks->rekapPerBulan($rekapSource[$numbering2][0]);
-						
-					// test
-					/*echo "rekap source: " . $rekapSource[$numbering2][0] . "<br>";
-					$numbering2++;
-					print_r($rekapPenjualanHarian);*/
-					
 					echo "<div style='margin-top: 30px;'>";
 					echo "Rekap Penjualan Harian Produk " . $rekapSource[$numbering2][1] . "<br>";
 					echo "<table border=1>";
