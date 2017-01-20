@@ -251,10 +251,55 @@
 		}
 		
 		public function getBbmSellingReportSellQty($id){
-		
+			$query = "
+				select sum(stm.amount) as 'hasil'
+				from stocks stk
+				join stocks_mutation stm on stk.id = stm.stocks_id
+				where month(mutation_date) = month(current_date())
+				and stk.id = :id;
+			";
+			
+			$result = null;
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':id', $id);
+				$stmt->execute();
+				
+				$stmt->setFetchMode(PDO::FETCH_ASSOC); 
+				$result = $stmt->fetchAll();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+			return $result[0]['hasil'];
 		}
-		public function getBbmSellingReportSellPrice($id){
 		
+		public function getBbmSellingReportSellPrice($id){
+			$query = "
+				select sum(stm.amount * stk.harga) as 'hasil'
+				from stocks stk
+				join stocks_mutation stm on stk.id = stm.stocks_id
+				where month(mutation_date) = month(current_date())
+				and stk.id = :id
+			";
+			
+			$result = null;
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->bindParam(':id', $id);
+				$stmt->execute();
+				
+				$stmt->setFetchMode(PDO::FETCH_ASSOC); 
+				$result = $stmt->fetchAll();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+			return $result[0]['hasil'];
 		}
 		
 		public function insertNewStock($stock){

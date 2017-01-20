@@ -30,7 +30,6 @@
 	$stocks = new Stocks();
 	$penjualanBbm = $stocks->getBbmSellingReport();
 	//$rekapPerBulan = $stocks->rekapPerBulan();
-	print_r($penjualanBbm);
 	
 	// page footer / end
 	$content = $content . "
@@ -119,11 +118,21 @@
 						echo "</tr>";
 						$numberingTableOnly++;
 					}
-					
+		
+					// get and print totals
+					$totalQty = $stocks->getBbmSellingReportSellQty($rekapSource[$numbering2][0]);
+					$totalAmount = $stocks->getBbmSellingReportSellPrice($rekapSource[$numbering2][0]);
+					echo "<tr>";
+					echo "<td colspan=2>Total</td>";
+					echo "<td>". $totalQty ."</td>";
+					echo "<td>". $totalAmount ."</td>";
+					echo "</tr>";
+		
 					echo "</table>";
 					echo "</div>";
 					$numbering2++;
 				}
+				
 			?>
 		</body>
 </html>
