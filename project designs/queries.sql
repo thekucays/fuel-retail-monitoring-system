@@ -86,6 +86,7 @@ select stk.id, stk.nama, stk.stock,
 	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
 	where mutation_date between now() - interval 7 day and now()
 	and mutation_types = 1
+	and stocks_id = stk.id
 ) as 'week',
 (
 	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
@@ -110,7 +111,22 @@ curr.nama as 'satuan',
 from stocks stk join currencies curr on stk.currencies_id = curr.id;
 
 -- Rekap penjualan harian (per bulan)
+use antarfuelretail;
 select stk.id, stk.nama, stm.mutation_date, stm.amount, (stm.amount * stk.harga) as 'nilaipenjualan'
+from stocks stk
+join stocks_mutation stm on stk.id = stm.stocks_id
+where month(mutation_date) = month(current_date())
+and stk.id = 1;
+
+-- get total amount dari rekap penjualan
+select sum(stm.amount) as 'hasil'
+from stocks stk
+join stocks_mutation stm on stk.id = stm.stocks_id
+where month(mutation_date) = month(current_date())
+and stk.id = 1;
+
+-- get total nilai penjualan dari rekap penjualan
+select sum(stm.amount * stk.harga) as 'hasil'
 from stocks stk
 join stocks_mutation stm on stk.id = stm.stocks_id
 where month(mutation_date) = month(current_date())
