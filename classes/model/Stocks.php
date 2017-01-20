@@ -184,7 +184,7 @@
 			}
 		}
 		
-		public function rekapPerBulan(){
+		public function rekapPerBulan($id){
 			$query = "
 				select stk.id, stk.nama, stm.mutation_date, stm.amount, (stm.amount * stk.harga) as 'nilaipenjualan'
 				from stocks stk
@@ -199,7 +199,7 @@
 				$conn = $DBCon->initConnection();
 				
 				$stmt = $conn->prepare($query);
-				$stmt->bindParam(':id', $id);
+				$stmt->bindParam(':stockid', $id);
 				$stmt->execute();
 				
 				$stmt->setFetchMode(PDO::FETCH_ASSOC); 
@@ -208,6 +208,53 @@
 				echo "Got PDO Exception: " . $pEx->getMessage();
 			}
 			return $result;
+		}
+		
+		
+		
+		// Rekap penjualan harian produk <namaproduk> (for report halaman 2)
+		public function getBbmSellingReport(){
+			$query = "
+				select stk.id, stk.nama, 
+				(
+					select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
+					-- where mutation_date between now() - interval 30 day and now()
+					where month(mutation_date) = month(current_date())
+					and mutation_types = 1
+					and stocks_id = stk.id
+				) as 'jumlahpenjualan',
+				curr.nama as 'satuan',
+				(
+					select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
+					-- where mutation_date between now() - interval 30 day and now()
+					where month(mutation_date) = month(current_date())
+					and mutation_types = 1
+					and stocks_id = stk.id
+				)/30 as 'penjualanratarata'
+				from stocks stk join currencies curr on stk.currencies_id = curr.id
+			";
+			
+			$result = null;
+			try{
+				$DBCon = new DBConnector();
+				$conn = $DBCon->initConnection();
+				
+				$stmt = $conn->prepare($query);
+				$stmt->execute();
+				
+				$stmt->setFetchMode(PDO::FETCH_ASSOC); 
+				$result = $stmt->fetchAll();
+			} catch(PDOException $pEx){
+				echo "Got PDO Exception: " . $pEx->getMessage();
+			}
+			return $result;
+		}
+		
+		public function getBbmSellingReportSellQty($id){
+		
+		}
+		public function getBbmSellingReportSellPrice($id){
+		
 		}
 		
 		public function insertNewStock($stock){

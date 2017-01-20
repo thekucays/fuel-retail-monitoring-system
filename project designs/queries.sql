@@ -75,6 +75,7 @@ and mutation_types = 1;
 
 -- get complete fuel selling data
 -- Stocks->getAllSellingData()
+-- di munculin di stocksOverview
 select * from stocks_mutation;
 select * from stocks;
 select stk.id, stk.nama, stk.stock,
@@ -98,8 +99,8 @@ select stk.id, stk.nama, stk.stock,
 ) as 'month'
 from stocks stk;
 
--- 3. Penjualan BBM (for report)
--- StocksMutation->getBbmSellingReport()
+-- 3. Penjualan BBM (for report halaman 1)
+-- Stocks->getBbmSellingReport()
 select stk.id, stk.nama, 
 (
 	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
@@ -118,7 +119,8 @@ curr.nama as 'satuan',
 )/30 as 'penjualanratarata'
 from stocks stk join currencies curr on stk.currencies_id = curr.id;
 
--- Rekap penjualan harian (per bulan)
+-- Rekap penjualan harian produk <namaproduk> (for report halaman 2)
+-- Stocks->rekapPerBulan()
 use antarfuelretail;
 select stk.id, stk.nama, stm.mutation_date, stm.amount, (stm.amount * stk.harga) as 'nilaipenjualan'
 from stocks stk
@@ -127,6 +129,7 @@ where month(mutation_date) = month(current_date())
 and stk.id = 1;
 
 -- get total amount dari rekap penjualan
+-- Stocks->getBbmSellingReportSellQty(id)
 select sum(stm.amount) as 'hasil'
 from stocks stk
 join stocks_mutation stm on stk.id = stm.stocks_id
@@ -134,6 +137,7 @@ where month(mutation_date) = month(current_date())
 and stk.id = 1;
 
 -- get total nilai penjualan dari rekap penjualan
+-- Stocks->getBbmSellingReportSellPrice(id)
 select sum(stm.amount * stk.harga) as 'hasil'
 from stocks stk
 join stocks_mutation stm on stk.id = stm.stocks_id
