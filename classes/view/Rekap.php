@@ -103,7 +103,7 @@
 					echo "<table border=1>";
 					echo "<tr>";
 					echo "<td>No</td>";
-					echo "<td>Hari-Tanggal-Bulan-Tahun</td>";
+					echo "<td>Tahun-Bulan-Tanggal-Jam</td>";
 					echo "<td>Jumlah Penjualan</td>";
 					echo "<td>Nilai Penjualan</td>";
 					echo "</tr>";
