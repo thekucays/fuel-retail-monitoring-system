@@ -81,6 +81,7 @@ select stk.id, stk.nama, stk.stock,
 	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
 	where mutation_date between now() - interval 1 day and now()
 	and mutation_types = 1
+	and stocks_id = stk.id
 ) as 'day',
 (
 	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
@@ -92,6 +93,7 @@ select stk.id, stk.nama, stk.stock,
 	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
 	where mutation_date between now() - interval 30 day and now()
 	and mutation_types = 1
+	and stocks_id = stk.id
 ) as 'month'
 from stocks stk;
 
@@ -101,12 +103,14 @@ select stk.id, stk.nama,
 	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
 	where mutation_date between now() - interval 30 day and now()
 	and mutation_types = 1
+	and stocks_id = stk.id
 ) as 'jumlahpenjualan',
 curr.nama as 'satuan',
 (
 	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
 	where mutation_date between now() - interval 30 day and now()
 	and mutation_types = 1
+	and stocks_id = stk.id
 )/30 as 'penjualanratarata'
 from stocks stk join currencies curr on stk.currencies_id = curr.id;
 
