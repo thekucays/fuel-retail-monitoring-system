@@ -74,6 +74,7 @@ where mutation_date between now() - interval 10 day and now()
 and mutation_types = 1;
 
 -- get complete fuel selling data
+-- Stocks->getAllSellingData()
 select * from stocks_mutation;
 select * from stocks;
 select stk.id, stk.nama, stk.stock,
@@ -97,18 +98,21 @@ select stk.id, stk.nama, stk.stock,
 ) as 'month'
 from stocks stk;
 
--- 3. Penjualan BBM
+-- 3. Penjualan BBM (for report)
+-- StocksMutation->getBbmSellingReport()
 select stk.id, stk.nama, 
 (
 	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
-	where mutation_date between now() - interval 30 day and now()
+	-- where mutation_date between now() - interval 30 day and now()
+	where month(mutation_date) = month(current_date())
 	and mutation_types = 1
 	and stocks_id = stk.id
 ) as 'jumlahpenjualan',
 curr.nama as 'satuan',
 (
 	select sum(amount) from stocks_mutation  -- mutation types 1 purchase, 2 stock adding
-	where mutation_date between now() - interval 30 day and now()
+	-- where mutation_date between now() - interval 30 day and now()
+	where month(mutation_date) = month(current_date())
 	and mutation_types = 1
 	and stocks_id = stk.id
 )/30 as 'penjualanratarata'
