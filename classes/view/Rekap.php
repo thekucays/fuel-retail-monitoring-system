@@ -133,6 +133,9 @@
 					$numbering2++;
 				}
 				
+				// who printed this document, and when exactly
+				$now = new DateTime();
+				echo "<br>Dicetak oleh: " . $_SESSION['nip'] . " pada " . $now->format("Y-m-d H:i:s");
 			?>
 		</body>
 </html>
