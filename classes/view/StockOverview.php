@@ -27,7 +27,7 @@
 					window.location = "MemberHome.php";
 				};
 				rekap = function(){
-					window.location = "Rekap.php"
+					window.location = "RekapPdf.php"
 				};
 				insert = function(){
 					window.location = "InsertNewStock.php"
