@@ -39,8 +39,11 @@
 		<?php
 			$stockList = new Stocks();
 			$result = $stockList->getAllSellingData();
-			print_r($result);
 		?>
+		<div>
+			<b>Stock Overview</b>
+		</div>
+		
 		<table border=1>
 			<tr>
 				<td>Nama</td>
