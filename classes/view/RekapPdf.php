@@ -13,14 +13,7 @@
 		header("Location: ../../index.php");
 	}
 	
-	// get content from Rekap.php
-	/*$buffer = file_get_contents("Rekap.php");
-	$pdf = new HTML2PDF('P', 'mm', 'Legal'); 
-	$pdf->AddPage(); 
-	$pdf->WriteHTML($buffer); 
-	$pdf->Output('my.pdf', 'F');  */
-	
-	 // get the HTML
+	// get the HTML
     ob_start();
     include('Rekap.php');
     $content = ob_get_clean();
