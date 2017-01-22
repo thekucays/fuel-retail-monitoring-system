@@ -15,6 +15,8 @@
 <html>
 	<head>
 		<title>Fuel Retail v0.1 Member Home Page</title>
+		<link rel="stylesheet" href="../../css/commons.css" />
+		<link rel="stylesheet" href="../../css/bootstrap.min.css" />
 		<script src="../../scripts/jquery.min.js"></script>
 		<script>
 			$(document).ready(function(){
@@ -27,43 +29,54 @@
 		</script>
 	</head>
 	<body>
-		<b>Input Penjualan</b>
-		<form method="post" name="inputpenjualanform" id="inputpenjualanform" action="">
-			<table>
-				<tr>
-					<td>NIP</td>
-					<td><input type="text" name="nip" id="nip" value="<?php echo $_SESSION['nip']; ?>" readonly /></td>
-				</tr>
-				<tr>
-					<td>BBM</td>
-					<td>
-						<select name="stockid" id="stockid">
-							<option value="">Silahkan Pilih..</option>
-							<?php
-								$stocks = new Stocks();
-								$resultList = $stocks->getStockList();
-								echo "test";
-								foreach($resultList as $val){
-									echo "<option value='" . $val['id'] . "'>" . $val['nama'] . "</option>";
-								}
-							?>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Satuan</td>
-					<td><input type="text" name="satuan" id="satuan" /></td>
-				</tr>
-				<tr>
-					<td>Jumlah</td>
-					<td><input type="text" name="jumlah" id="jumlah" /></td>
-				</tr>
-				<tr>
-					<td><input type="submit" name="submitButton" id="submitButton" value="Submit" /></td>
-					<td><input type="button" name="backButton" id="backButton" value="Kembali" onclick="back()" /></td>
-				</tr>
-			</table>
-		</form>
+		<div class="span7">   
+		<div class="widget stacked widget-table action-table">
+			<div class="widget-header">
+				<i class="icon-th-list"></i>
+				<h3><b>Input Penjualan</b></h3>
+			</div> <!-- /widget-header -->
+			
+			<div class="widget-content">
+				<form method="post" name="inputpenjualanform" id="inputpenjualanform" action="">
+					<table class="table table-striped table-bordered">
+						<tbody>
+							<tr>
+								<td>NIP</td>
+								<td><input type="text" name="nip" id="nip" value="<?php echo $_SESSION['nip']; ?>" readonly /></td>
+							</tr>
+							<tr>
+								<td>BBM</td>
+								<td>
+									<select name="stockid" id="stockid">
+										<option value="">Silahkan Pilih..</option>
+										<?php
+											$stocks = new Stocks();
+											$resultList = $stocks->getStockList();
+											echo "test";
+											foreach($resultList as $val){
+												echo "<option value='" . $val['id'] . "'>" . $val['nama'] . "</option>";
+											}
+										?>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>Jumlah</td>
+								<td><input type="text" name="jumlah" id="jumlah" /></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<input class="btn btn-primary" type="submit" name="submitButton" id="submitButton" value="Submit" />
+									<input class="btn btn-info" type="button" name="backButton" id="backButton" value="Kembali" onclick="back()" /></td>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</div>
+		</div>
 		
 		<?php
 			if(isset($_POST['submitButton'])){

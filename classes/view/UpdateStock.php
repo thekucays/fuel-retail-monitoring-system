@@ -18,14 +18,14 @@
 		$stockId = $_REQUEST['stockid'];
 		$stocks = new Stocks();
 		$result = $stocks->checkStock($stockId);
-		
-		print_r($result);
 	}
 ?>
 
 <html>
 	<head>
 		<title>Fuel Retail v0.1 Member Home Page</title>
+		<link rel="stylesheet" href="../../css/commons.css" />
+		<link rel="stylesheet" href="../../css/bootstrap.min.css" />
 		<script src="../../scripts/jquery.min.js"></script>
 		<script>
 			$(document).ready(function(){
@@ -36,34 +36,46 @@
 		</script>
 	</head>
 	<body>
-		<b>Update Fuel Stock for <?php echo $result['nama']; ?></b>
-		
-		<form method="post" name="updateForm" id="updateForm" action="">
-			<table>
-				<tr>
-					<td>Pegawai</td>
-					<td><input type="text" name="pegawai" id="pegawai" value="<?php echo $_SESSION['nip']; ?>" readonly /></td> 
-				</tr>
-				<tr>
-					<td>BBM</td>
-					<td><input type="text" name="bbm" id="bbm" value="<?php echo $result['nama']; ?>" readonly /></td>
-				</tr>
-				<tr>
-					<td>Satuan</td>
-					<td><input type="text" name="satuan" id="satuan" value="<?php echo $result['satuan']; ?>" readonly /></td>
-				</tr>
-				<tr>
-					<td>Jumlah</td>
-					<td><input type="text" name="jumlah" id="jumlah" /></td>
-				</tr>
-				<tr>
-					<input type="hidden" name="stockid" id="stockid" value="<?php echo $result['id']; ?>" />
-					<td><input type="submit" name="submitButton" id="submitButton" value="Submit" /></td>
-					<td><input type="button" name="backButton" id="backButton" value="Kembali" onclick="back()" /></td>
-				</tr>
-			</table>
-		</form>
-		
+		<div class="span7">   
+		<div class="widget stacked widget-table action-table">
+			<div class="widget-header">
+				<i class="icon-th-list"></i>
+				<h3><b>Update Fuel Stock for <?php echo $result['nama']; ?></b></h3>
+			</div> <!-- /widget-header -->
+			
+			<div class="widget-content">
+				<form method="post" name="updateForm" id="updateForm" action="">
+				<table class="table table-striped table-bordered">
+					<tr>
+						<td>Pegawai</td>
+						<td><input type="text" name="pegawai" id="pegawai" value="<?php echo $_SESSION['nip']; ?>" readonly /></td> 
+					</tr>
+					<tr>
+						<td>BBM</td>
+						<td><input type="text" name="bbm" id="bbm" value="<?php echo $result['nama']; ?>" readonly /></td>
+					</tr>
+					<tr>
+						<td>Satuan</td>
+						<td><input type="text" name="satuan" id="satuan" value="<?php echo $result['satuan']; ?>" readonly /></td>
+					</tr>
+					<tr>
+						<td>Jumlah</td>
+						<td><input type="text" name="jumlah" id="jumlah" /></td>
+					</tr>
+					<tr>
+						<td>
+							<input type="hidden" name="stockid" id="stockid" value="<?php echo $result['id']; ?>" />
+						</td>
+						<td>
+							<input class="btn btn-primary" type="submit" name="submitButton" id="submitButton" value="Submit" />
+							<input class="btn btn-info" type="button" name="backButton" id="backButton" value="Kembali" onclick="back()" />
+						</td>
+					</tr>
+				</table>
+				</form>
+			</div>
+		</div>
+		</div>
 		<?php
 			if(isset($_POST['submitButton'])){
 				// cek if amount empty
