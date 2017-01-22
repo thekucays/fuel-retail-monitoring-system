@@ -28,6 +28,10 @@
 		</script>
 	</head>
 	<body>
+		<div style="margin-bottom: 20px;">
+			Login sebagai: <?php echo $_SESSION['nip'] ?>
+			<a href="../controller/Logout.php">Logout</a>
+		</div>
 	
 		<?php
 			$results = $_SESSION['mutationData'];

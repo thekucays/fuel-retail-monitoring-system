@@ -29,6 +29,11 @@
 		</script>
 	</head>
 	<body>
+		<div style="margin-bottom: 20px;">
+			Login sebagai: <?php echo $_SESSION['nip'] ?>
+			<a href="../controller/Logout.php">Logout</a>
+		</div>
+	
 		<div class="span7">   
 		<div class="widget stacked widget-table action-table">
 			<div class="widget-header">
