@@ -1,8 +1,8 @@
 <?php
 	//require_once('..\..\libs\html2pdf\html2pdf.class.php');
-	require_once('..\model\UsersTable.php');
-	require_once('..\model\Stocks.php');
-	require_once('..\model\StocksMutation.php');
+	require_once('../model/UsersTable.php');
+	require_once('../model/Stocks.php');
+	require_once('../model/StocksMutation.php');
 	session_start();
 	
 	// session check
@@ -89,7 +89,12 @@
 						echo "<td>" . ($numberingTableOnly + 1) . "</td>";
 						echo "<td>" . $val['mutation_date'] . "</td>";
 						echo "<td>" . $val['amount'] . "</td>";
-						echo "<td>" . $val['nilaipenjualan'] . "</td>";
+						
+						// format nilaipenjualan to Rupiah(IDR) currency
+						$nilaiPenjualan = $val['nilaipenjualan'];
+						$nilaiPenjualan = "Rp " . number_format($nilaiPenjualan,2,',','.');
+						echo "<td>" . $nilaiPenjualan . "</td>";
+						
 						echo "</tr>";
 						$numberingTableOnly++;
 					}
@@ -99,6 +104,9 @@
 					$totalAmount = $stocks->getBbmSellingReportSellPrice($rekapSource[$numbering2][0]);
 					echo "<tr>";
 					echo "<td colspan=2>Total</td>";
+					
+					// format totalAmount as rupiah(IDR) currency
+					$totalAmount = "Rp " . number_format($totalAmount,2,',','.');
 					echo "<td>". $totalQty ."</td>";
 					echo "<td>". $totalAmount ."</td>";
 					echo "</tr>";
