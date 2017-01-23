@@ -1,8 +1,8 @@
 <?php
 	//require_once('..\..\libs\html2pdf\html2pdf.class.php');
-	require_once('../model/UsersTable.php');
-	require_once('../model/Stocks.php');
-	require_once('../model/StocksMutation.php');
+	require_once('..\model\UsersTable.php');
+	require_once('..\model\Stocks.php');
+	require_once('..\model\StocksMutation.php');
 	session_start();
 	
 	// session check
